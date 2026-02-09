@@ -1,0 +1,33 @@
+Q3. Bayes Rule Applied to Text (based on slide: Bayes’ Rule for documents)
+The PPT shows that classification is based on:
+ 
+Tasks:
+1. Explain in your own words what each term means: P(c), P(d∣c) and P(c∣d). 
+
+    In text classification, we want to decide which class ccc (like spam/ham or positive/negative) a document ddd belongs to. 
+        Bayes Rule gives:
+                    P(c∣d)=P(d∣c) P(c) / P(d)
+    1) P(c) — Prior
+        •	P(c) is the prior probability of class c.
+        •	It means, before reading the document, how likely is class c?
+        •	Example: if 70% training docs are negative, then  P(negative) is high. 
+    
+    2) P(d ∣ c) — Likelihood
+        •	P(d | c) is the likelihood.
+        •	It means: if the document truly belongs to class c, how likely is it that we would see this document’s words?
+        •	In Naive Bayes, we compute this using word probabilities learned from documents of that class. 
+    
+
+    3) P(c ∣ d) — Posterior
+        •	P(c | d) is the posterior probability.
+        •	It means: after seeing the document d, how likely is it that the class is c?
+        •	This is the value we care about for prediction (we pick the class with the highest posterior). 
+
+2. Why can the denominator P(d) be ignored when comparing classes?
+
+        P(d) is the probability of observing the document itself, and it does not depend on the class.
+          •	Since P(d) is the same constant for all classes when the document is fixed, it does not change which class is largest.
+          •	So we just compare:
+                    P(c) × P(d ∣ c)
+            and pick the class with the bigger product. 
+
