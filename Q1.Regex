@@ -1,0 +1,36 @@
+Q1. Regex
+Task: Write a regex to find
+
+    1. U.S. ZIP codes (disjunction + token boundaries)
+    Match 12345 or 12345-6789 or 12345 6789 (hyphen or space allowed for the +4 part). Make sure you only match whole tokens (not inside longer strings).
+                                             
+       Ans: \b[0-9]{5}(-[0-9]{4})?\b
+                                             
+    2. Negation in disjunction (word start rules)
+    Find all words that do not start with a capital letter. Words may include internal apostrophes/hyphens like don’t, state-of-the-art.
+                                             
+          Ans: \b[^A-Z][a-z]+([-’][a-z]+)*\b
+                                             
+    3. Convenient aliases (numbers, a bit richer)
+      Extract all numbers that may have:
+      a.	optional sign (+/-),
+      b.	optional thousands separators (commas),
+      c.	optional decimal part,
+      d.	optional scientific notation (e.g., 1.23e-4).
+                                             
+            Ans: [+-]?\d+(\,\d{3}+)*(\.\d+)?([eE][+-]?\d+)?
+    
+    4. More disjunction (spelling variants)
+        Match any spelling of “email”: email, e-mail, or e mail. Accept either a space or a hyphen (including en‐dash –) between e and mail, and be case-insensitive.
+        
+              Ans: (?i)\be([ -–]?)mail\b
+                                             
+    5. Wildcards, optionality, repetition (with punctuation)
+    Match the interjection go, goo, gooo, … (one or more o), as a word, and allow an optional trailing punctuation mark ! . , ? (e.g., gooo!).
+    
+            Ans: \bgo+\b[!.,?]?
+                                             
+    6. Anchors (line/sentence end with quotes)
+        Match lines that end with a question mark possibly followed only by closing quotes/brackets like ")”’] and spaces.
+        
+              Ans: \?[")”’] ]*$
