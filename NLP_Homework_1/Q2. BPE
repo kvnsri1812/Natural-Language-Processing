@@ -1,0 +1,125 @@
+Q2. Manual BPE on a toy corpus
+  2.1 Using the same corpus from class:
+    low low low low low lowest lowest newer newer newer newer newer newer wider wider wider new new
+      
+    1. Add the end-of-word marker _ and write the initial vocabulary (characters + _).
+      Ans:
+      Corpus		           Vocabulary
+      5	l o w _		         _, d, e, i, l, n, o, r, s, t, w
+      2 l o w e s t _
+      6 n e w e r _
+      3 w i d e r _
+      2	n e w _
+      
+   2. Compute bigram counts and perform the first three merges by hand:
+
+        o	Step 1: most frequent pair → merge → updated corpus snippet (show at least 2 lines).
+        o	Step 2: repeat.
+        o	Step 3: repeat.
+
+    3.	After each merge, list the new token and the updated vocabulary
+      
+      1. Merge er _ → er.
+           Most frequent pair
+           New Token: er
+      Corpus			             Vocabulary
+      5	l o w _	              	_, d, e, i, l, n, o, s, t, w, er
+      2	l o w e s t _
+      6	n e w er _
+      3	w i d er _
+      2	n e w _
+
+      2.	Merge er _ → er_
+           Next most frequent pair
+           New Token: er_
+      Corpus			          Vocabulary
+      5	l o w _		          _, d, e, i, l, n, o, s, t, w, er, er_
+      2	l o w e s t _
+      6	n e w er_
+      3	w i d er_
+      2	n e w _
+      3.	Merge n e → ne
+            After merging er_, the most frequent adjacent pairs are n e and e w, each occurring 8 times. Since BPE allows any of the most frequent pairs to be chosen in case of a tie, we select n e → ne as the third merge.
+            New Token: ne
+      Corpus			       Vocabulary
+      5	l o w _		       _, d, e, i, l, n, o, s, t, w, er, er_, ne
+      2	l o w e s t _
+      6	ne w er_
+      3	w i d er_
+      2	ne w _
+
+   2.2 — Code a mini-BPE learner 
+      1.	Use the classroom code above (or your own) to learn BPE merges for the toy corpus.
+          o	Print the top pair at each step and the evolving vocabulary size.
+          Using the classroom BPE code, we implemented a mini-Byte Pair Encoding learner for the given toy corpus. The algorithm first adds an end-of-word marker _ to each word and splits words into characters. At each step, it counts all adjacent symbol pairs, selects the most frequent pair, merges it across the corpus, and prints the top pair along with the evolving vocabulary size.
+          Observed merges and Vocabulary Evolution:
+                Step 1: merge e + r → er (9)
+                Step 2: merge er + _ → er_ (9)
+                Step 3: merge n + e → ne (8)
+                Step 4: merge ne + w → new (8)
+                Step 5: merge l + o → lo (7)
+                Step 6: merge lo + w → low (7)
+                Step 7: merge new + er_ → newer_ (6)
+                Step 8: merge low + _ → low_ (5)
+                Step 9: merge w + i → wi (3)
+                Step 10: merge wi + d → wid (3)
+          Final vocabulary: ['_', 'e', 'er_', 'low', 'low_', 'new', 'newer_', 's', 't', 'wid']
+      2.	Segment the words: new, newer, lowest, widest, and one word you invent (e.g., newestest).
+          o	Include the sub word sequence produced (tokens with _ where applicable).
+          After learning the merges, a greedy BPE segmenter was applied to new words using the learned merge order. The underscore _ marks the end of a word.
+          Word	Sub word Segmentation
+              new	new _
+              newer	newer_
+              lowest	low e s t _
+              widest	wid e s t _
+              newestest (invented)	new e s t e s t _
+      
+      3.	In 5–6 sentences, explain:
+          o	How sub word tokens solved the OOV (out-of-vocabulary) problem.
+          o	One example where sub words align with a meaningful morpheme (e.g., er_ as English agent/comparative suffix).
+              BPE reduces OOV (Out-of-Vocabulary) because it does not require every full word to be in the vocabulary. Instead, it learns common subword pieces from the training data by merging frequent character pairs. When a new word appears, we can represent it as a combination of known subwords (or even characters), so it will not become an “unknown token.” For example, if BPE learns er_, then it can represent newer as something like new + er_ instead of needing the whole word newer in the vocabulary. This helps the model generalize across related words like new, newer, and newest. The only downside is merges are based on frequency, so sometimes the pieces are not perfect linguistic morphemes.
+ 
+  2.3 — Your language (or English if you prefer) 
+      Pick one short paragraph (4–6 sentences) in your own language (or English if that’s simpler).
+      1.	Train BPE on that paragraph (or a small file of your choice).
+        o	Use end-of-word _.
+        o	Learn at least 30 merges (adjust if the text is very small).
+      2.	Show the five most frequent merges and the resulting five longest subword tokens.
+      3.	Segment 5 different words from the paragraph:
+        o	Include one rare word and one derived/inflected form.
+      4.	Brief reflection (5–8 sentences):
+        o	What kinds of subwords were learned (prefixes, suffixes, stems, whole words)?
+        o	Two concrete pros/cons of subword tokenization for your language.
+      
+          Paragraph Used:
+          		తెలుగు ఒక ప్రాచీనమైన భాష.
+              ఈ భాషలో సాహిత్యం ఎంతో సమృద్ధిగా ఉంది.
+              మన సంస్కృతి మరియు సంప్రదాయాలు ఈ భాష ద్వారా వ్యక్తమవుతాయి.
+              తెలుగు మాట్లాడే ప్రజలు ప్రపంచవ్యాప్తంగా ఉన్నారు.
+              ఈ భాష విద్య మరియు సాంకేతిక రంగాలలో కూడా విస్తరిస్తోంది.
+          1.	Training the BPE on the paragraph:
+              Byte Pair Encoding (BPE) was trained on the above Telugu paragraph using the classroom BPE algorithm. Each word was split into characters and an end-of-word marker _ was appended. The BPE learner was run for 30 merges, which is sufficient for this small corpus. At each step, the most frequent adjacent symbol pair was merged, and the evolving vocabulary size was recorded.
+          2.	Five Most Frequent Merges and Longest Sub Word Tokens
+              Five Most Frequent Merges:
+                    1. ు + _ → ు_ (freq = 7)
+                    2. ప + ్ → ప్ (freq = 5)
+                    3. ప్ + ర → ప్ర (freq = 4)
+                    4. భ + ా → భా (freq = 4)
+                    5. భా + ష → భాష (freq = 4)
+              Five Longest Sub Word Tokens:
+                    1. ప్రపంచవ్యాప్తంగా
+                    2. సంప్రదాయాలు
+                    3. విస్తరిస్తోంది
+                    4. తెలుగు_
+                    5. మరియు_
+          3.	Word Segmentation Using Learned BPE Merges
+              Word	Subword Segmentation
+              తెలుగు	తెలుగు_
+              భాషలో	భాష లో_
+              సంప్రదాయాలు (derived form)	సం ప్ర ద ా య ా ల ు_
+              ప్రపంచవ్యాప్తంగా (rare word)	ప్ర ప ం చ వ ్య ా ప్ త ం గా_
+              విస్తరిస్తోంది	వ ి స్ త రి స్ త ో ంది_
+      
+      4.	Reflection
+          Training BPE on Telugu learns a mixture of orthographic units, stems, suffixes, and whole words. Many learned subwords correspond to meaningful Telugu constructions such as consonant–virama clusters (e.g., ప్, ్య) and vowel-marked syllables (e.g., భా). Whole words such as తెలుగు_ and భాష_ are learned when they occur frequently. Subword tokenization effectively solves the out-of-vocabulary problem because rare words like ప్రపంచవ్యాప్తంగా can still be segmented into known subunits.
+          This is particularly important for Telugu, which is morphologically rich and agglutinative. One advantage of subword tokenization is reduced vocabulary size with strong generalization. A limitation is that some subword splits may not always align perfectly with true linguistic morphemes, especially when trained on small datasets.

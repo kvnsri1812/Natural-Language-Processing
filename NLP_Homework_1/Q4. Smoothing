@@ -1,0 +1,37 @@
+Q4. Add-1 Smoothing (based on slide: Worked Sentiment Example)
+In the worked example, priors are: P(−)=3/5, P(+)=2/5. Vocabulary size = 20.
+Tasks:
+	For the negative class, the total token count is 14. Compute the denominator for likelihood estimation using add-1 smoothing.
+	Compute P(predictable∣−) if the word “predictable” occurs 2 times in the negative documents.
+  Compute P(fun∣−) if “fun” never appeared in any negative documents.
+    
+  Given:
+    Vocabulary size ∣V∣=20
+    Total token count in the negative class, N = 14
+    Count(predictable|−) = 2
+    Count(fun|−) = 0
+    Prior probabilities:
+                P(-)=3/5, P(+)=2/5
+
+    1. Denominator (negative class)
+
+          With add-1 smoothing, denominator is:
+                    N + ∣V∣ =14+20=34
+          So for the negative class, every smoothed word probability will be “something divided by 34”.
+     
+    2. Likelihood computations
+
+        P(predictable∣−)
+            The given count = 2
+            Using add-1 smoothing:
+                    P(predictable∣-)= (2+1)/34 = 3/34
+        
+            After smoothing, “predictable” gets credit as if it appeared 3 times instead of 2 (2 real + 1 smoothing).
+         P(fun∣−)
+            The given count = 0
+            Using add-1 smoothing:
+                    P(fun∣-) = (0+1)/34 = 1/34
+            Even though “fun” never appeared in negative training text, it still gets a small non-zero probability (so documents containing “fun” don’t become impossible under the negative class).
+            
+        Without smoothing, P(fun∣−) = 0.
+          If a test document contains the word “fun”, then P(d∣−) becomes 0 (because of multiplication), and the classifier may wrongly reject the negative class completely. Add-1 smoothing avoids this by ensuring every word has a non-zero probability.
