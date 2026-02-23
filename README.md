@@ -45,7 +45,7 @@ P(sentence) = ∏ P(wᵢ | wᵢ₋₁)
 
 ## 📂 Files Included
 
-- `bigram_model.py` → Main implementation
+- `Q5. Programming_Bigram_Language_Model.py` → Main implementation
 - `README.md` → Project documentation
 
 ---
