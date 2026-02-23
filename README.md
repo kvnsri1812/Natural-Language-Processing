@@ -12,11 +12,11 @@ Semester: Spring 2026
 
 This project implements a Bigram Language Model using Maximum Likelihood Estimation (MLE).  
 The model is trained on a small corpus:
-
+```bash
 <s> I love NLP </s>  
 <s> I love deep learning </s>  
 <s> deep learning is fun </s>  
-
+```
 The program:
 
 - Computes unigram counts
