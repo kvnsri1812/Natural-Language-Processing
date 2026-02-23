@@ -12,7 +12,7 @@ Semester: Spring 2026
 
 ---
 
-## 📌 Project Description
+## Project Description
 
 This project implements a Bigram Language Model using Maximum Likelihood Estimation (MLE).  
 The model is trained on a small corpus:
@@ -31,7 +31,7 @@ The program:
 
 ---
 
-## 🧠 Mathematical Formulation
+## Mathematical Formulation
 
 Bigram probability is computed using:
 
@@ -43,14 +43,14 @@ P(sentence) = ∏ P(wᵢ | wᵢ₋₁)
 
 ---
 
-## 📂 Files Included
+## Files Included
 
 - `Q5. Programming_Bigram_Language_Model.py` → Main implementation
 - `README.md` → Project documentation
 
 ---
 
-## ▶️ How to Run
+## How to Run
 
 1. Clone the repository
 
