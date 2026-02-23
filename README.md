@@ -1,9 +1,13 @@
 ## Bigram Language Model Implementation
 
 ### Student Information
+
 Name: Komatlapalli Venkata Naga Sri
+
 ID: 700773763 
+
 Course: CS5760 – Natural Language Processing  
+
 Semester: Spring 2026  
 
 ---
